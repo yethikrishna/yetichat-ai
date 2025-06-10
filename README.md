@@ -153,4 +153,27 @@ Open your browser and navigate to `http://localhost:8123/app/` to see the applic
 
 ## License
 
-This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE) file for details. 
+This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE) file for details.
+
+## Quick Start Instructions
+
+Follow these steps to get your project running:
+
+1.  **Set up your Gemini API Key:**
+    *   Open the `backend/.env` file.
+    *   Replace `YOUR_API_KEY_HERE` with your actual Google Gemini API key. You can get your free API key from [Google AI Studio](https://aistudio.google.com/).
+
+2.  **Install Dependencies and Compile:**
+    Open your terminal and run the following command from the root of the project:
+    ```bash
+    pip install -e ./backend && npm install --prefix frontend
+    ```
+
+3.  **Run the Development Server:**
+    After the installation is complete, run the following command:
+    ```bash
+    make dev
+    ```
+    This will start both the backend and frontend development servers. You should then be able to access your agent in your browser.
+
+*(These instructions are based on the setup guide provided in the issue.)*
