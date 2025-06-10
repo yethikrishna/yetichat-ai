@@ -177,3 +177,39 @@ Follow these steps to get your project running:
     This will start both the backend and frontend development servers. You should then be able to access your agent in your browser.
 
 *(These instructions are based on the setup guide provided in the issue.)*
+
+## Deploying Yetichat to Netlify
+
+You can deploy the frontend of your Yetichat agent to Netlify for a live, shareable version.
+
+### Prerequisites:
+
+1.  **Push to GitHub:** Ensure your project, with your latest changes, is pushed to a GitHub repository.
+2.  **Gemini API Key:** You must have your Gemini API key set in `backend/.env` for local testing, but for Netlify, the backend needs to be accessible via a public URL, and the frontend needs to know this URL.
+3.  **Deployed Backend (Optional but Recommended):**
+    *   For the Netlify-deployed frontend to fully function, it needs to connect to a running backend. You can deploy the backend (the `backend` folder contents) to a cloud service (e.g., Railway, Render, Google Cloud Run, etc.).
+    *   If you don't deploy the backend, your Netlify frontend will only work if it can connect to your local backend running on `http://127.0.0.1:2024` (this is the default proxy target if `VITE_API_URL` is not set during build). This is usually only feasible for testing.
+
+### Netlify Setup Steps:
+
+1.  **Go to Netlify:** Sign up or log in at [Netlify.com](https://netlify.com).
+2.  **New Site from Git:**
+    *   Click "Add new site" (or "New site from Git").
+    *   Choose "Import an existing project" and connect to your GitHub account.
+    *   Select your Yetichat GitHub repository.
+3.  **Build Settings:**
+    *   Netlify should automatically detect the settings from `netlify.toml` if it's in your repository's root.
+    *   **Build command:** `cd frontend && npm ci && npm run build`
+    *   **Publish directory:** `frontend/dist`
+    *   Ensure the Node version matches (e.g., Node 18, as specified in `netlify.toml`).
+4.  **Environment Variables (Crucial!):**
+    *   In your Netlify site's settings, navigate to "Site configuration" > "Environment variables".
+    *   Add a variable:
+        *   **Key:** `VITE_API_URL`
+        *   **Value:** The URL of your deployed backend (e.g., `https://your-yetichat-backend.onrender.com/api`).
+        *   *Note:* The `/api` suffix might be needed depending on how your backend routes are structured and how the frontend makes calls. The default setup proxies requests starting with `/api` to your backend. If your backend is already serving under an `/api` path, you might not need it in `VITE_API_URL`. Test this carefully. If you are using the default Vite proxy target for local dev (`http://127.0.0.1:2024`), your deployed backend should also expect API calls at a similar base path.
+5.  **Deploy:** Click "Deploy site" (or the equivalent).
+
+Netlify will then build and deploy your frontend.
+
+For more detailed steps, you can also refer to the `NETLIFY_DEPLOY.MD` file in this repository.
